@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مصنعات اليُمن</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-color: #1b4332; /* أخضر زيتي ملكي */
+            --accent-color: #d4a373; /* ذهبي مطفي */
+            --bg-color: #f4f7f6;
+            --white: #ffffff;
+            --danger: #d63031;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        body { background-color: var(--bg-color); color: #2d3436; }
+
+        /* الهيدر مع اللوجو */
+        header {
+            background: var(--main-color);
+            color: white;
+            text-align: center;
+            padding: 30px 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            background: var(--white);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--accent-color);
+            font-size: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        header h1 { font-size: 26px; margin-bottom: 5px; color: var(--accent-color); text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        header p { font-size: 14px; opacity: 0.9; font-weight: 300; }
+
+        #app-content { padding: 15px; min-height: calc(100vh - 180px); }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+            border: 1px solid #eee;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .item-header { display: flex; justify-content: space-between; align-items: center; }
+        .item-name { font-size: 19px; font-weight: 700; color: var(--main-color); }
+        .item-price { color: var(--main-color); font-weight: bold; font-size: 18px; }
+
+        .add-btn {
+            width: 100%;
+            background: var(--main-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(27, 67, 50, 0.2);
+        }
+
+        .add-btn:active { transform: scale(0.96); background: var(--accent-color); }
+
+        /* السلة */
+        .cart-item { border-right: 6px solid var(--accent-color); }
+        .note-box {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 14px;
+            background: #fff;
+            resize: none;
+        }
+        .remove-link { color: var(--danger); font-size: 13px; cursor: pointer; display: block; margin-top: 12px; font-weight: 600; }
+
+        .total-card {
+            background: var(--main-color);
+            color: white;
+            padding: 25px;
+            border-radius: 25px;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .whatsapp-link {
+            background: #25d366;
+            color: white;
+            display: block;
+            padding: 18px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* الناف بار */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            display: flex;
+            height: 75px;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.08);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: none;
+            color: #bdc3c7;
+            font-size: 13px;
+        }
+
+        .nav-item.active { color: var(--main-color); font-weight: 700; }
+        .nav-item.active span:first-child { transform: translateY(-3px); transition: 0.3s; }
+
+        .badge {
+            background: var(--danger);
+            color: white;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex; align-items: center; justify-content: center;
+            position: absolute; top: 12px; right: 30%;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">🥩</div> <h1>مصنعات اليُمن</h1>
+    <p>بركة الطعم.. جودة نثق بها</p>
+</header>
+
+<main id="app-content"></main>
+
+<nav class="bottom-nav">
+    <button class="nav-item active" onclick="changeTab('menu')">
+        <span style="font-size: 24px;">🥘</span>
+        المنيو
+    </button>
+    <button class="nav-item" style="position: relative;" onclick="changeTab('cart')">
+        <div id="cart-count-badge"></div>
+        <span style="font-size: 24px;">🛒</span>
+        السلة
+    </button>
+</nav>
+
+<script>
+    const menuList = [
+        { id: 1, name: "برجر", price: 300 },
+        { id: 2, name: "عصب", price: 100 },
+        { id: 3, name: "سجق", price: 270 },
+        { id: 4, name: "حواوشي", price: 270 },
+        { id: 5, name: "كفتة", price: 300 },
+        { id: 6, name: "مفروم", price: 300 }
+    ];
+
+    let cart = [];
+    let activeTab = 'menu';
+
+    function updateUI() {
+        const content = document.getElementById('app-content');
+        const badge = document.getElementById('cart-count-badge');
+        badge.innerHTML = cart.length > 0 ? `<span class="badge">${cart.length}</span>` : '';
+
+        if (activeTab === 'menu') {
+            content.innerHTML = renderMenu();
+        } else {
+            content.innerHTML = renderCart();
+        }
+    }
+
+    function changeTab(tab) {
+        activeTab = tab;
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        updateUI();
+        window.scrollTo(0,0);
+    }
+
+    function renderMenu() {
+        return menuList.map(item => `
+            <div class="card">
+                <div class="item-header">
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-price">${item.price} ج.م</span>
+                </div>
+                <button class="add-btn" onclick="addToCart(${item.id})">إضافة للطلب +</button>
+            </div>
+        `).join('');
+    }
+
+    function renderCart() {
+        if (cart.length === 0) {
+            return `
+                <div style="text-align: center; padding-top: 80px; color: #bbb;">
+                    <span style="font-size: 70px;">🛒</span>
+                    <p style="margin-top: 15px; font-size: 18px;">سلتك فارغة يا بطل</p>
+                    <button class="add-btn" onclick="changeTab('menu')" style="width: auto; padding: 12px 40px;">اطلب الآن</button>
+                </div>
+            `;
+        }
+
+        let total = 0;
+        const cartHTML = cart.map((item, index) => {
+            total += item.price;
+            return `
+                <div class="card cart-item">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong>${item.name}</strong>
+                        <b style="color: var(--main-color);">${item.price} ج.م</b>
+                    </div>
+                    <textarea class="note-box" placeholder="ملاحظاتك (الكمية، بدون فلفل...)" 
+                        oninput="saveNote(${index}, this.value)">${item.note || ''}</textarea>
+                    <span class="remove-link" onclick="removeFromCart(${index})">❌ إزالة من السلة</span>
+                </div>
+            `;
+        }).join('');
+
+        return `
+            ${cartHTML}
+            <div class="total-card">
+                <p style="font-size: 16px; opacity: 0.9;">إجمالي الحساب</p>
+                <h2 style="font-size: 36px; margin: 5px 0;">${total} ج.م</h2>
+                <a href="#" class="whatsapp-link" onclick="sendOrder()">إرسال الطلب واتساب ✅</a>
+            </div>
+        `;
+    }
+
+    function addToCart(id) {
+        const item = menuList.find(i => i.id === id);
+        cart.push({ ...item, note: "" });
+        updateUI();
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateUI();
+    }
+
+    function saveNote(index, text) {
+        cart[index].note = text;
+    }
+
+    function sendOrder() {
+        const phoneNumber = "201122947479"; // ضع رقمك هنا
+        let msg = `*طلب جديد من (مصنعات اليُمن)*%0A`;
+        msg += `----------------------------%0A`;
+        let total = 0;
+        cart.forEach((item, i) => {
+            msg += `*${i+1}- ${item.name}* (${item.price} ج.م)%0A`;
+            if(item.note) msg += `📝 ملاحظة: _${item.note}_%0A`;
+            msg += `----------------------------%0A`;
+            total += item.price;
+        });
+        msg += `%0A*💰 الإجمالي: ${total} جنيه مصري*`;
+        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
+    }
+
+    updateUI();
+</script>
+
+</body>
+</html>
