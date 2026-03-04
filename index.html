@@ -7,172 +7,87 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --main-color: #1b4332; /* أخضر زيتي ملكي */
-            --accent-color: #d4a373; /* ذهبي مطفي */
-            --bg-color: #f4f7f6;
-            --white: #ffffff;
-            --danger: #d63031;
+            --main-bg: #000000; /* أسود زي خلفية اللوجو */
+            --gold: #d4a373;    /* ذهبي */
+            --red: #e63946;     /* أحمر اللوجو */
+            --card-bg: #1a1a1a; /* أسود فاتح للكروت */
+            --text-color: #ffffff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-        body { background-color: var(--bg-color); color: #2d3436; }
+        body { background-color: var(--main-bg); color: var(--text-color); padding-bottom: 120px; /* حل مشكلة اختفاء المنتج الأخير */ }
 
-        /* الهيدر مع اللوجو */
         header {
-            background: var(--main-color);
-            color: white;
+            background: linear-gradient(180deg, #1a1a1a 0%, #000000 100%);
             text-align: center;
             padding: 30px 15px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-bottom: 2px solid var(--gold);
         }
 
-        .logo-container {
-            width: 80px;
-            height: 80px;
-            background: var(--white);
-            border-radius: 50%;
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 3px solid var(--accent-color);
-            font-size: 40px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
+        .logo-img { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; object-fit: cover; }
 
-        header h1 { font-size: 26px; margin-bottom: 5px; color: var(--accent-color); text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
-        header p { font-size: 14px; opacity: 0.9; font-weight: 300; }
+        header h1 { color: var(--gold); font-size: 24px; }
 
-        #app-content { padding: 15px; min-height: calc(100vh - 180px); }
+        #app-content { padding: 15px; }
 
         .card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
             margin-bottom: 15px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.04);
-            border: 1px solid #eee;
-            animation: fadeIn 0.5s ease;
+            border: 1px solid #333;
+            animation: fadeIn 0.4s ease;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
 
         .item-header { display: flex; justify-content: space-between; align-items: center; }
-        .item-name { font-size: 19px; font-weight: 700; color: var(--main-color); }
-        .item-price { color: var(--main-color); font-weight: bold; font-size: 18px; }
+        .item-name { font-size: 18px; font-weight: bold; color: var(--gold); }
+        .item-price { color: var(--red); font-weight: bold; }
 
         .add-btn {
-            width: 100%;
-            background: var(--main-color);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(27, 67, 50, 0.2);
+            width: 100%; background: var(--gold); color: black; border: none;
+            padding: 12px; border-radius: 10px; font-weight: bold; margin-top: 15px; cursor: pointer;
         }
 
-        .add-btn:active { transform: scale(0.96); background: var(--accent-color); }
-
-        /* السلة */
-        .cart-item { border-right: 6px solid var(--accent-color); }
-        .note-box {
-            width: 100%;
-            padding: 12px;
-            margin-top: 15px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            font-size: 14px;
-            background: #fff;
-            resize: none;
-        }
-        .remove-link { color: var(--danger); font-size: 13px; cursor: pointer; display: block; margin-top: 12px; font-weight: 600; }
-
-        .total-card {
-            background: var(--main-color);
-            color: white;
-            padding: 25px;
-            border-radius: 25px;
-            text-align: center;
-            margin-top: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        /* تنسيق فورم البيانات */
+        .user-info-section { background: #111; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed var(--gold); }
+        .user-info-section input {
+            width: 100%; padding: 10px; margin-top: 8px; border-radius: 8px; border: 1px solid #444;
+            background: #222; color: white; font-size: 14px;
         }
 
-        .whatsapp-link {
-            background: #25d366;
-            color: white;
-            display: block;
-            padding: 18px;
-            border-radius: 15px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            margin-top: 20px;
-        }
+        .cart-item { border-right: 4px solid var(--red); }
+        .note-box { width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; background: #222; color: white; border: 1px solid #444; }
 
-        /* الناف بار */
+        .total-card { background: var(--gold); color: black; padding: 20px; border-radius: 15px; text-align: center; margin-top: 20px; }
+        .whatsapp-btn { background: #25d366; color: white; display: block; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 15px; }
+
+        /* Bottom Nav */
         .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: white;
-            display: flex;
-            height: 75px;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.08);
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #111; display: flex; height: 70px; border-top: 1px solid var(--gold); z-index: 1000;
         }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            background: none;
-            color: #bdc3c7;
-            font-size: 13px;
-        }
-
-        .nav-item.active { color: var(--main-color); font-weight: 700; }
-        .nav-item.active span:first-child { transform: translateY(-3px); transition: 0.3s; }
-
-        .badge {
-            background: var(--danger);
-            color: white;
-            width: 20px; height: 20px;
-            border-radius: 50%;
-            font-size: 11px;
-            display: flex; align-items: center; justify-content: center;
-            position: absolute; top: 12px; right: 30%;
-            border: 2px solid white;
-        }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: none; background: none; color: #888; }
+        .nav-item.active { color: var(--gold); font-weight: bold; }
+        .badge { background: var(--red); color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; position: absolute; top: 10px; right: 30%; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-container">🥩</div> <h1>مصنعات اليُمن</h1>
-    <p>بركة الطعم.. جودة نثق بها</p>
+    <img src="1000363484.png" alt="مصنعات اليُمن" class="logo-img">
+    <h1>مصنعات اليُمن</h1>
+    <p style="color: #888;">أصالة الذوق الرفيع</p>
 </header>
 
 <main id="app-content"></main>
 
 <nav class="bottom-nav">
-    <button class="nav-item active" onclick="changeTab('menu')">
-        <span style="font-size: 24px;">🥘</span>
-        المنيو
-    </button>
+    <button class="nav-item active" onclick="changeTab('menu')"><span>📋</span>المنيو</button>
     <button class="nav-item" style="position: relative;" onclick="changeTab('cart')">
-        <div id="cart-count-badge"></div>
-        <span style="font-size: 24px;">🛒</span>
-        السلة
+        <div id="cart-badge"></div><span>🛒</span>السلة
     </button>
 </nav>
 
@@ -189,16 +104,13 @@
     let cart = [];
     let activeTab = 'menu';
 
+    // تحميل بيانات العميل المسجلة
+    let userData = JSON.parse(localStorage.getItem('msnaat_user')) || { name: "", phone: "", address: "" };
+
     function updateUI() {
         const content = document.getElementById('app-content');
-        const badge = document.getElementById('cart-count-badge');
-        badge.innerHTML = cart.length > 0 ? `<span class="badge">${cart.length}</span>` : '';
-
-        if (activeTab === 'menu') {
-            content.innerHTML = renderMenu();
-        } else {
-            content.innerHTML = renderCart();
-        }
+        document.getElementById('cart-badge').innerHTML = cart.length > 0 ? `<span class="badge">${cart.length}</span>` : '';
+        content.innerHTML = activeTab === 'menu' ? renderMenu() : renderCart();
     }
 
     function changeTab(tab) {
@@ -212,84 +124,81 @@
     function renderMenu() {
         return menuList.map(item => `
             <div class="card">
-                <div class="item-header">
-                    <span class="item-name">${item.name}</span>
-                    <span class="item-price">${item.price} ج.م</span>
-                </div>
+                <div class="item-header"><span class="item-name">${item.name}</span><span class="item-price">${item.price} ج.م</span></div>
                 <button class="add-btn" onclick="addToCart(${item.id})">إضافة للطلب +</button>
             </div>
         `).join('');
     }
 
     function renderCart() {
-        if (cart.length === 0) {
-            return `
-                <div style="text-align: center; padding-top: 80px; color: #bbb;">
-                    <span style="font-size: 70px;">🛒</span>
-                    <p style="margin-top: 15px; font-size: 18px;">سلتك فارغة يا بطل</p>
-                    <button class="add-btn" onclick="changeTab('menu')" style="width: auto; padding: 12px 40px;">اطلب الآن</button>
-                </div>
-            `;
-        }
+        if (cart.length === 0) return `<div style="text-align:center; padding:50px; color:#666;">السلة فارغة</div>`;
 
         let total = 0;
-        const cartHTML = cart.map((item, index) => {
+        const itemsHTML = cart.map((item, index) => {
             total += item.price;
             return `
                 <div class="card cart-item">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <strong>${item.name}</strong>
-                        <b style="color: var(--main-color);">${item.price} ج.م</b>
-                    </div>
-                    <textarea class="note-box" placeholder="ملاحظاتك (الكمية، بدون فلفل...)" 
-                        oninput="saveNote(${index}, this.value)">${item.note || ''}</textarea>
-                    <span class="remove-link" onclick="removeFromCart(${index})">❌ إزالة من السلة</span>
+                    <div style="display:flex; justify-content:space-between;"><b>${item.name}</b><span>${item.price} ج.م</span></div>
+                    <textarea class="note-box" placeholder="ملاحظاتك..." oninput="saveNote(${index}, this.value)">${item.note || ''}</textarea>
+                    <div style="text-align:left; color:var(--red); font-size:12px; margin-top:10px;" onclick="removeFromCart(${index})">إزالة</div>
                 </div>
             `;
         }).join('');
 
         return `
-            ${cartHTML}
+            <div class="user-info-section">
+                <h4 style="color:var(--gold)">بيانات التوصيل (مرة واحدة فقط)</h4>
+                <input type="text" id="u-name" placeholder="الاسم بالكامل" value="${userData.name}" oninput="saveUserData()">
+                <input type="tel" id="u-phone" placeholder="رقم الموبايل" value="${userData.phone}" oninput="saveUserData()">
+                <input type="text" id="u-address" placeholder="العنوان بالتفصيل" value="${userData.address}" oninput="saveUserData()">
+            </div>
+            ${itemsHTML}
             <div class="total-card">
-                <p style="font-size: 16px; opacity: 0.9;">إجمالي الحساب</p>
-                <h2 style="font-size: 36px; margin: 5px 0;">${total} ج.م</h2>
-                <a href="#" class="whatsapp-link" onclick="sendOrder()">إرسال الطلب واتساب ✅</a>
+                <p>إجمالي الحساب</p>
+                <h2 style="font-size: 28px;">${total} ج.م</h2>
+                <a href="#" class="whatsapp-btn" onclick="sendOrder()">تأكيد الطلب واتساب ✅</a>
             </div>
         `;
     }
 
     function addToCart(id) {
-        const item = menuList.find(i => i.id === id);
-        cart.push({ ...item, note: "" });
+        cart.push({ ...menuList.find(i => i.id === id), note: "" });
         updateUI();
     }
 
-    function removeFromCart(index) {
-        cart.splice(index, 1);
-        updateUI();
-    }
+    function removeFromCart(index) { cart.splice(index, 1); updateUI(); }
+    function saveNote(i, val) { cart[i].note = val; }
 
-    function saveNote(index, text) {
-        cart[index].note = text;
+    function saveUserData() {
+        userData = {
+            name: document.getElementById('u-name').value,
+            phone: document.getElementById('u-phone').value,
+            address: document.getElementById('u-address').value
+        };
+        localStorage.setItem('msnaat_user', JSON.stringify(userData));
     }
 
     function sendOrder() {
-        const phoneNumber = "201122947479"; // ضع رقمك هنا
-        let msg = `*طلب جديد من (مصنعات اليُمن)*%0A`;
-        msg += `----------------------------%0A`;
+        if(!userData.name || !userData.phone || !userData.address) {
+            alert("يرجى إكمال بيانات التوصيل أولاً");
+            return;
+        }
+        const phoneNo = "2010XXXXXXXX"; // ضع رقمك هنا
+        let msg = `*طلب جديد من مصنعات اليُمن 🥩*%0A%0A`;
         let total = 0;
         cart.forEach((item, i) => {
-            msg += `*${i+1}- ${item.name}* (${item.price} ج.م)%0A`;
-            if(item.note) msg += `📝 ملاحظة: _${item.note}_%0A`;
-            msg += `----------------------------%0A`;
+            msg += `*${i+1}-* ${item.name} (${item.price} ج.م)%0A`;
+            if(item.note) msg += ` 📝 _ملاحظة: ${item.note}_%0A`;
             total += item.price;
         });
-        msg += `%0A*💰 الإجمالي: ${total} جنيه مصري*`;
-        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, '_blank');
+        msg += `%0A💰 *الإجمالي: ${total} ج.م*%0A%0A`;
+        msg += `👤 *الاسم:* ${userData.name}%0A`;
+        msg += `📞 *الموبايل:* ${userData.phone}%0A`;
+        msg += `📍 *العنوان:* ${userData.address}`;
+        window.open(`https://wa.me/${phoneNo}?text=${msg}`, '_blank');
     }
 
     updateUI();
 </script>
-
 </body>
 </html>
