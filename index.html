@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
+    <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="مصنعات اليُمن">
-    <link rel="apple-touch-icon" href="1000363484.png">
     
-    <link rel="manifest" href="data:application/manifest+json,{'name':'مصنعات اليُمن','short_name':'اليُمن','start_url':'.','display':'standalone','background_color':'#000000','theme_color':'#d4a373','icons':[{'src':'1000363484.png','sizes':'512x512','type':'image/png'}]}">
+    <link rel="icon" type="image/png" href="1000363484.png">
+    <link rel="apple-touch-icon" href="1000363484.png">
+
+    <link rel="manifest" href='data:application/manifest+json,{"name":"مصنعات اليُمن","short_name":"اليُمن","description":"أصالة الذوق الرفيع","start_url":"/","display":"standalone","orientation":"portrait","background_color":"#000000","theme_color":"#d4a373","icons":[{"src":"1000363484.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
 
     <title>مصنعات اليُمن</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -20,87 +24,63 @@
             --gold: #d4a373;
             --red: #e63946;
             --card-bg: #1a1a1a;
-            --text-color: #ffffff;
             --tab-height: 85px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-        body { background-color: var(--main-bg); color: var(--text-color); padding-bottom: calc(var(--tab-height) + 20px); }
+        body { background-color: var(--main-bg); color: white; padding-bottom: calc(var(--tab-height) + 20px); overflow-x: hidden; }
 
-        header {
-            background: linear-gradient(180deg, #1a1a1a 0%, #000000 100%);
-            text-align: center;
-            padding: 25px 15px;
-            border-bottom: 3px solid var(--gold);
-        }
+        /* شاشة التحميل (Splash Screen) */
+        #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .loader { width: 50px; height: 50px; border: 5px solid #333; border-top-color: var(--gold); border-radius: 50%; animation: spin 1s infinite linear; margin-top: 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .logo-img { width: 110px; height: 110px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 12px; box-shadow: 0 0 15px rgba(212, 163, 115, 0.3); }
+        header { background: #000; text-align: center; padding: 25px 15px; border-bottom: 3px solid var(--gold); }
+        .logo-img { width: 110px; height: 110px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 12px; }
+        header h1 { color: var(--gold); font-size: 26px; font-weight: 900; }
 
-        header h1 { color: var(--gold); font-size: 26px; font-weight: 900; letter-spacing: 1px; }
-
-        /* نافذة تعليمات التثبيت */
-        #install-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; padding: 20px;
-        }
-        .modal-content {
-            background: var(--card-bg); border: 2px solid var(--gold); border-radius: 25px;
-            padding: 25px; text-align: center; width: 100%; max-width: 400px;
-        }
-        .step { display: flex; align-items: center; margin: 15px 0; text-align: right; background: #222; padding: 10px; border-radius: 12px; }
-        .step-icon { font-size: 24px; margin-left: 15px; }
-
-        .close-modal-btn {
-            background: var(--gold); color: black; border: none; padding: 12px 30px;
-            border-radius: 12px; font-weight: bold; margin-top: 20px; width: 100%;
-        }
+        /* نافذة التثبيت */
+        #install-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--card-bg); border: 2px solid var(--gold); border-radius: 25px; padding: 25px; text-align: center; width: 100%; max-width: 400px; }
+        .step { display: flex; align-items: center; margin: 15px 0; text-align: right; background: #222; padding: 12px; border-radius: 12px; font-size: 14px; }
+        .step-icon { font-size: 24px; margin-left: 12px; }
 
         /* المنيو */
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
-        .menu-card {
-            background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center;
-            border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between;
-        }
-        .item-name { font-size: 18px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
-        .item-price { color: var(--red); font-size: 20px; font-weight: 900; margin-bottom: 15px; }
-
-        .add-btn {
-            background: var(--gold); color: black; border: none; padding: 12px 5px;
-            border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer;
-        }
+        .menu-card { background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+        .item-name { font-size: 18px; font-weight: 700; color: var(--gold); margin-bottom: 5px; }
+        .item-price { color: var(--red); font-size: 20px; font-weight: 900; margin-bottom: 10px; }
+        .add-btn { background: var(--gold); color: black; border: none; padding: 12px 5px; border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer; }
 
         /* Bottom Nav */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; background: #111; display: flex;
-            height: var(--tab-height); border-top: 2px solid var(--gold); z-index: 1000;
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; display: flex; height: var(--tab-height); border-top: 2px solid var(--gold); z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: none; background: none; color: #888; font-size: 16px; font-weight: bold; }
         .nav-item.active { color: var(--gold); }
-        .badge { background: var(--red); color: white; width: 24px; height: 24px; border-radius: 50%; font-size: 13px; position: absolute; top: 10px; right: 28%; display: flex; align-items: center; justify-content: center; border: 2px solid #111; }
+        .badge { background: var(--red); color: white; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; position: absolute; top: 8px; right: 28%; display: flex; align-items: center; justify-content: center; border: 2px solid #111; font-weight: 900; }
 
-        /* السلة والبيانات */
-        .user-info-section { background: #111; padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 2px dashed var(--gold); }
-        .user-info-section input { width: 100%; padding: 15px; margin-top: 10px; border-radius: 12px; border: 1px solid #444; background: #222; color: white; font-size: 16px; }
-        .total-card { background: var(--gold); color: black; padding: 25px; border-radius: 20px; text-align: center; margin-top: 20px; }
+        /* السلة */
+        .user-info-section { background: #111; padding: 15px; border-radius: 20px; margin-bottom: 20px; border: 2px dashed var(--gold); }
+        .user-info-section input { width: 100%; padding: 15px; margin-top: 10px; border-radius: 12px; border: 1px solid #444; background: #222; color: white; font-size: 16px; outline: none; }
+        .user-info-section input:focus { border-color: var(--gold); }
+        .total-card { background: var(--gold); color: black; padding: 25px; border-radius: 20px; text-align: center; margin-top: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         .whatsapp-btn { background: #25d366; color: white; display: block; padding: 18px; border-radius: 15px; text-decoration: none; font-weight: 900; font-size: 20px; margin-top: 15px; }
     </style>
 </head>
 <body>
 
+<div id="splash">
+    <img src="1000363484.png" width="150" style="border-radius: 50%;">
+    <div class="loader"></div>
+</div>
+
 <div id="install-modal">
     <div class="modal-content">
-        <h2 style="color:var(--gold)">ثبّت التطبيق الآن 📱</h2>
-        <div style="margin-top:20px;">
-            <p style="font-weight:bold; color:var(--red)">لأجهزة الأندرويد:</p>
-            <div class="step"><span class="step-icon">⋮</span><span>اضغط على الثلاث نقاط بالأعلى</span></div>
-            <div class="step"><span class="step-icon">📲</span><span>اختر "Install App" أو "إضافة للشاشة"</span></div>
-        </div>
-        <div style="margin-top:10px;">
-            <p style="font-weight:bold; color:var(--red)">لأجهزة الآيفون:</p>
-            <div class="step"><span class="step-icon">⎋</span><span>اضغط على زر المشاركة بالأسفل</span></div>
-            <div class="step"><span class="step-icon">➕</span><span>اختر "Add to Home Screen"</span></div>
-        </div>
+        <h2 style="color:var(--gold); margin-bottom:15px;">ثبّت التطبيق الرسمي 🥩</h2>
+        <p style="font-size:14px; color:#aaa; margin-bottom:20px;">استمتع بتجربة طلب أسرع كأنك في تطبيق حقيقي!</p>
+        <div class="step"><span class="step-icon">⋮</span><span>اضغط على خيارات المتصفح (3 نقط)</span></div>
+        <div class="step"><span class="step-icon">📲</span><span>اختر <b>Install App</b> أو <b>تثبيت التطبيق</b></span></div>
+        <p style="font-size:12px; color:var(--red); margin-top:10px;">* ملحوظة: لا تختر "Add to home screen" العادية</p>
         <button class="close-modal-btn" onclick="closeModal()">فهمت، ابدأ الطلب</button>
     </div>
 </div>
@@ -108,7 +88,7 @@
 <header>
     <img src="1000363484.png" alt="مصنعات اليُمن" class="logo-img">
     <h1>مصنعات اليُمن</h1>
-    <p style="color: #888; font-weight: bold;">أصالة الذوق الرفيع</p>
+    <p style="color: #888; font-size: 12px;">أصالة الذوق الرفيع</p>
 </header>
 
 <main id="app-content"></main>
@@ -121,11 +101,18 @@
 </nav>
 
 <script>
-    window.onload = function() {
+    // إخفاء شاشة التحميل بعد ثانية
+    window.addEventListener('load', () => {
+        setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 1000);
         if (!localStorage.getItem('install_shown') && !window.matchMedia('(display-mode: standalone)').matches) {
             document.getElementById('install-modal').style.display = 'flex';
         }
-    };
+    });
+
+    // تسجيل Service Worker وهمي لتفعيل زر التثبيت في المتصفح
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi.JhZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGV2ID0+IHsgfSk7');
+    }
 
     function closeModal() {
         document.getElementById('install-modal').style.display = 'none';
@@ -167,39 +154,39 @@
         return menuList.map(item => `
             <div class="menu-card">
                 <div><div class="item-name">${item.name}</div><div class="item-price">${item.price} ج.م</div></div>
-                <button class="add-btn" onclick="addToCart(${item.id})">إضافة للطلب +</button>
+                <button class="add-btn" onclick="addToCart(${item.id})">إضافة +</button>
             </div>
         `).join('');
     }
 
     function renderCart() {
-        if (cart.length === 0) return `<div style="text-align:center; padding:100px 20px; color:#666; font-size:20px;">سلتك فارغة.. المنيو يناديك!</div>`;
+        if (cart.length === 0) return `<div style="text-align:center; padding:100px 20px; color:#666; font-size:18px;">السلة فارغة يا بطل!</div>`;
         let total = 0;
         const itemsHTML = cart.map((item, index) => {
             total += item.price;
             return `
-                <div style="background:var(--card-bg); border-radius:15px; padding:15px; margin-bottom:15px; border-right:6px solid var(--red);">
+                <div style="background:var(--card-bg); border-radius:15px; padding:15px; margin-bottom:15px; border-right:5px solid var(--red);">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <b style="font-size:18px;">${item.name}</b><span style="color:var(--red); font-weight:900;">${item.price} ج.م</span>
+                        <b style="font-size:17px;">${item.name}</b><span style="color:var(--red); font-weight:900;">${item.price} ج.م</span>
                     </div>
-                    <textarea style="width:100%; padding:12px; margin-top:10px; border-radius:10px; background:#222; color:white; border:1px solid #444;" placeholder="ملاحظاتك..." oninput="saveNote(${index}, this.value)">${item.note || ''}</textarea>
-                    <div style="text-align:left; color:var(--red); font-size:14px; margin-top:12px; font-weight:bold;" onclick="removeFromCart(${index})">🗑️ إزالة</div>
+                    <textarea style="width:100%; padding:10px; margin-top:10px; border-radius:8px; background:#222; color:white; border:1px solid #444; font-size:14px;" placeholder="ملاحظات..." oninput="saveNote(${index}, this.value)">${item.note || ''}</textarea>
+                    <div style="text-align:left; color:var(--red); font-size:13px; margin-top:10px; font-weight:bold;" onclick="removeFromCart(${index})">🗑️ حذف</div>
                 </div>
             `;
         }).join('');
 
         return `
             <div class="user-info-section">
-                <h4>📍 بيانات التوصيل</h4>
-                <input type="text" id="u-name" placeholder="الاسم بالكامل" value="${userData.name}" oninput="saveUserData()">
-                <input type="tel" id="u-phone" placeholder="رقم الموبايل" value="${userData.phone}" oninput="saveUserData()">
-                <input type="text" id="u-address" placeholder="العنوان بالتفصيل" value="${userData.address}" oninput="saveUserData()">
+                <h4 style="color:var(--gold)">📍 بياناتك (لأول مرة)</h4>
+                <input type="text" id="u-name" placeholder="الاسم" value="${userData.name}" oninput="saveUserData()">
+                <input type="tel" id="u-phone" placeholder="رقم الهاتف" value="${userData.phone}" oninput="saveUserData()">
+                <input type="text" id="u-address" placeholder="العنوان" value="${userData.address}" oninput="saveUserData()">
             </div>
             ${itemsHTML}
             <div class="total-card">
-                <p style="font-weight:bold; font-size:18px;">إجمالي الحساب</p>
-                <h2 style="font-size: 38px; font-weight:900;">${total} ج.م</h2>
-                <a href="#" class="whatsapp-btn" onclick="sendOrder()">تأكيد الطلب واتساب ✅</a>
+                <p>إجمالي الحساب</p>
+                <h2 style="font-size: 35px; font-weight:900;">${total} ج.م</h2>
+                <a href="#" class="whatsapp-btn" onclick="sendOrder()">تأكيد الطلب ✅</a>
             </div>
         `;
     }
@@ -213,13 +200,13 @@
     }
 
     function sendOrder() {
-        if(!userData.name || !userData.phone || !userData.address) { alert("يا بطل، كمل بيانات العنوان!"); return; }
-        const phoneNo = "201122947479"; // تم التعديل للرقم الجديد
+        if(!userData.name || !userData.phone || !userData.address) { alert("أكمل البيانات أولاً يا بطل!"); return; }
+        const phoneNo = "201122947479";
         let msg = `*طلب جديد من مصنعات اليُمن 🥩*%0A%0A`;
         let total = 0;
         cart.forEach((item, i) => {
             msg += `*${i+1}-* ${item.name} (${item.price} ج.م)%0A`;
-            if(item.note) msg += ` 📝 _ملاحظة: ${item.note}_%0A`;
+            if(item.note) msg += ` 📝 _${item.note}_%0A`;
             total += item.price;
         });
         msg += `%0A💰 *الإجمالي: ${total} ج.م*%0A%0A👤 *الاسم:* ${userData.name}%0A📞 *الموبايل:* ${userData.phone}%0A📍 *العنوان:* ${userData.address}`;
