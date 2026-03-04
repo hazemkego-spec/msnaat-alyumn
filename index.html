@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="مصنعات اليُمن">
+    <link rel="apple-touch-icon" href="1000363484.png">
+    
+    <link rel="manifest" href="data:application/manifest+json,{'name':'مصنعات اليُمن','short_name':'اليُمن','start_url':'.','display':'standalone','background_color':'#000000','theme_color':'#d4a373','icons':[{'src':'1000363484.png','sizes':'512x512','type':'image/png'}]}">
+
     <title>مصنعات اليُمن</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --main-bg: #000000;
@@ -35,14 +42,12 @@
         /* نافذة تعليمات التثبيت */
         #install-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 20px;
+            background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; padding: 20px;
         }
         .modal-content {
             background: var(--card-bg); border: 2px solid var(--gold); border-radius: 25px;
-            padding: 25px; text-align: center; width: 100%; max-width: 400px; animation: slideIn 0.5s;
+            padding: 25px; text-align: center; width: 100%; max-width: 400px;
         }
-        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
         .step { display: flex; align-items: center; margin: 15px 0; text-align: right; background: #222; padding: 10px; border-radius: 12px; }
         .step-icon { font-size: 24px; margin-left: 15px; }
 
@@ -51,12 +56,11 @@
             border-radius: 12px; font-weight: bold; margin-top: 20px; width: 100%;
         }
 
-        /* نظام المربعات للمنيو */
+        /* المنيو */
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
         .menu-card {
             background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center;
             border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
         .item-name { font-size: 18px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
         .item-price { color: var(--red); font-size: 20px; font-weight: 900; margin-bottom: 15px; }
@@ -66,7 +70,7 @@
             border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer;
         }
 
-        /* التبويبات السفلية */
+        /* Bottom Nav */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0; background: #111; display: flex;
             height: var(--tab-height); border-top: 2px solid var(--gold); z-index: 1000;
@@ -76,7 +80,6 @@
         .badge { background: var(--red); color: white; width: 24px; height: 24px; border-radius: 50%; font-size: 13px; position: absolute; top: 10px; right: 28%; display: flex; align-items: center; justify-content: center; border: 2px solid #111; }
 
         /* السلة والبيانات */
-        .cart-container { padding: 15px; }
         .user-info-section { background: #111; padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 2px dashed var(--gold); }
         .user-info-section input { width: 100%; padding: 15px; margin-top: 10px; border-radius: 12px; border: 1px solid #444; background: #222; color: white; font-size: 16px; }
         .total-card { background: var(--gold); color: black; padding: 25px; border-radius: 20px; text-align: center; margin-top: 20px; }
@@ -88,20 +91,16 @@
 <div id="install-modal">
     <div class="modal-content">
         <h2 style="color:var(--gold)">ثبّت التطبيق الآن 📱</h2>
-        <p style="margin: 10px 0; font-size: 14px; color: #ccc;">للحصول على تجربة أسرع وأفضل في الطلب:</p>
-        
         <div style="margin-top:20px;">
             <p style="font-weight:bold; color:var(--red)">لأجهزة الأندرويد:</p>
             <div class="step"><span class="step-icon">⋮</span><span>اضغط على الثلاث نقاط بالأعلى</span></div>
-            <div class="step"><span class="step-icon">📲</span><span>اختر "إضافة إلى الشاشة الرئيسية"</span></div>
+            <div class="step"><span class="step-icon">📲</span><span>اختر "Install App" أو "إضافة للشاشة"</span></div>
         </div>
-
         <div style="margin-top:10px;">
             <p style="font-weight:bold; color:var(--red)">لأجهزة الآيفون:</p>
             <div class="step"><span class="step-icon">⎋</span><span>اضغط على زر المشاركة بالأسفل</span></div>
-            <div class="step"><span class="step-icon">➕</span><span>اختر "إضافة إلى الشاشة الرئيسية"</span></div>
+            <div class="step"><span class="step-icon">➕</span><span>اختر "Add to Home Screen"</span></div>
         </div>
-
         <button class="close-modal-btn" onclick="closeModal()">فهمت، ابدأ الطلب</button>
     </div>
 </div>
@@ -122,9 +121,8 @@
 </nav>
 
 <script>
-    // إظهار الرسالة لو أول مرة يفتح اللينك
     window.onload = function() {
-        if (!localStorage.getItem('install_shown')) {
+        if (!localStorage.getItem('install_shown') && !window.matchMedia('(display-mode: standalone)').matches) {
             document.getElementById('install-modal').style.display = 'flex';
         }
     };
@@ -153,7 +151,7 @@
         if (activeTab === 'menu') {
             content.innerHTML = `<div class="menu-grid">${renderMenu()}</div>`;
         } else {
-            content.innerHTML = `<div class="cart-container">${renderCart()}</div>`;
+            content.innerHTML = `<div style="padding:15px;">${renderCart()}</div>`;
         }
     }
 
@@ -216,7 +214,7 @@
 
     function sendOrder() {
         if(!userData.name || !userData.phone || !userData.address) { alert("يا بطل، كمل بيانات العنوان!"); return; }
-        const phoneNo = "201014872322";
+        const phoneNo = "201122947479"; // تم التعديل للرقم الجديد
         let msg = `*طلب جديد من مصنعات اليُمن 🥩*%0A%0A`;
         let total = 0;
         cart.forEach((item, i) => {
