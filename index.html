@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="مصنعات اليُمن">
+    
+    <link rel="icon" type="image/png" href="1000363484.png">
+    <link rel="apple-touch-icon" href="1000363484.png">
+    <link rel="manifest" href="manifest.json">
+
+    <title>مصنعات اليُمن</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --main-bg: #000000; --gold: #d4a373; --red: #e63946; --card-bg: #1a1a1a; --tab-height: 80px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--main-bg); color: white; padding-bottom: calc(var(--tab-height) + 40px); overflow-x: hidden; }
+        
+        #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .loader { width: 30px; height: 30px; border: 3px solid #333; border-top-color: var(--gold); border-radius: 50%; animation: spin 1s infinite linear; margin-top: 15px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        header { background: #000; text-align: center; padding: 20px 10px; border-bottom: 2px solid var(--gold); }
+        .logo-img { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 8px; }
+        header h1 { color: var(--gold); font-size: 20px; font-weight: 900; }
+
+        #install-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.97); z-index: 3000; justify-content: center; align-items: center; padding: 15px; }
+        .modal-content { background: var(--card-bg); border: 2px solid var(--gold); border-radius: 25px; padding: 25px; text-align: center; width: 100%; max-width: 380px; }
+        .install-title { color: var(--gold); font-size: 20px; font-weight: 900; margin-bottom: 20px; }
+        .step-box { background: #222; border-radius: 15px; padding: 15px; margin-bottom: 12px; text-align: right; border-right: 5px solid var(--red); }
+        .step-box p { font-size: 14px; line-height: 1.6; }
+        .close-modal-btn { background: var(--gold); color: black; border: none; padding: 14px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
+        .menu-card { background: var(--card-bg); border-radius: 15px; padding: 12px; text-align: center; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
+        .item-name { font-size: 16px; font-weight: 700; color: var(--gold); }
+        .item-price { color: var(--red); font-size: 18px; font-weight: 900; margin: 8px 0; }
+        .add-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 10px; font-weight: 900; font-size: 14px; }
+
+        #floating-total { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 6px 15px; border-radius: 50px; font-weight: 900; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: none; z-index: 900; font-size: 13px; }
+
+        .cart-item { background: var(--card-bg); border-radius: 12px; padding: 10px; margin-bottom: 10px; border-right: 4px solid var(--red); }
+        .qty-badge { background: var(--gold); color: black; padding: 2px 7px; border-radius: 50%; font-weight: 900; font-size: 11px; margin-left: 5px; }
+        .cart-note { width: 100%; padding: 8px; margin-top: 8px; border-radius: 6px; background: #222; color: #ccc; border: 1px solid #333; font-size: 11px; height: 38px; }
+
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; display: flex; height: var(--tab-height); border-top: 2px solid var(--gold); z-index: 1000; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: none; background: none; color: #888; font-size: 12px; font-weight: bold; }
+        .nav-item.active { color: var(--gold); }
+        .badge { background: var(--red); color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; position: absolute; top: 8px; right: 28%; display: flex; align-items: center; justify-content: center; border: 2px solid #111; font-weight: 900; }
+
+        .whatsapp-btn { background: #25d366; color: white; display: block; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 900; font-size: 18px; margin-top: 10px; text-align: center; }
+        .contact-container { padding: 30px 20px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div id="splash">
+    <img src="1000363484.png" width="90" style="border-radius: 50%;">
+    <div class="loader"></div>
+</div>
+
+<div id="install-modal">
+    <div class="modal-content">
+        <h2 class="install-title">🥩 ثبّت تطبيقنا للطلب أسرع</h2>
+        <div class="step-box"><p><b>📱 أندرويد:</b> اضغط (3 نقط ⋮) ثم <b>تثبيت التطبيق</b>.</p></div>
+        <div class="step-box" style="border-right-color: var(--gold);"><p><b>🍎 آيفون:</b> اضغط <b>مشاركة</b> ثم <b>إضافة للشاشة الرئيسية</b>.</p></div>
+        <button class="close-modal-btn" onclick="closeModal()">فهمت، ابدأ الطلب</button>
+    </div>
+</div>
+
+<header>
+    <img src="1000363484.png" alt="مصنعات اليُمن" class="logo-img">
+    <h1>مصنعات اليُمن</h1>
+</header>
+
+<div id="floating-total">إجمالي الطلب: <span id="float-sum">0</span> ج.م</div>
+
+<main id="app-content"></main>
+
+<nav class="bottom-nav">
+    <button class="nav-item active" onclick="changeTab('menu')"><span>📋</span>المنيو</button>
+    <button class="nav-item" style="position: relative;" onclick="changeTab('cart')">
+        <div id="cart-badge"></div><span>🛒</span>السلة
+    </button>
+    <button class="nav-item" onclick="changeTab('contact')"><span>📞</span>تواصل معنا</button>
+</nav>
+
+<script>
+    window.addEventListener('load', () => {
+        setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 800);
+        if (!window.matchMedia('(display-mode: standalone)').matches) {
+            document.getElementById('install-modal').style.display = 'flex';
+        }
+    });
+
+    const menuList = [
+        { id: 1, name: "برجر", price: 300 }, { id: 2, name: "عصب", price: 100 },
+        { id: 3, name: "سجق", price: 270 }, { id: 4, name: "حواوشي", price: 270 },
+        { id: 5, name: "كفتة", price: 300 }, { id: 6, name: "مفروم", price: 300 }
+    ];
+
+    let cart = [];
+    let activeTab = 'menu';
+    let userData = JSON.parse(localStorage.getItem('msnaat_user')) || { name: "", phone: "", address: "" };
+
+    function getNextInvoiceNumber() {
+        let lastNum = localStorage.getItem('last_invoice_num') || 1000;
+        let newNum = parseInt(lastNum) + 1;
+        return newNum;
+    }
+
+    function updateUI() {
+        const content = document.getElementById('app-content');
+        const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        const count = cart.reduce((sum, item) => sum + item.qty, 0);
+        document.getElementById('cart-badge').innerHTML = count > 0 ? `<div class="badge">${count}</div>` : '';
+        
+        const floatTotal = document.getElementById('floating-total');
+        if(activeTab === 'menu' && total > 0) {
+            floatTotal.style.display = 'block';
+            document.getElementById('float-sum').innerText = total;
+        } else { floatTotal.style.display = 'none'; }
+
+        if (activeTab === 'menu') {
+            content.innerHTML = `<div class="menu-grid">${renderMenu()}</div>`;
+        } else if (activeTab === 'cart') {
+            content.innerHTML = `<div style="padding:12px;">${renderCart(total)}</div>`;
+        } else { content.innerHTML = renderContact(); }
+    }
+
+    function changeTab(tab) {
+        activeTab = tab;
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        const navItems = document.querySelectorAll('.nav-item');
+        if(tab === 'menu') navItems[0].classList.add('active');
+        else if(tab === 'cart') navItems[1].classList.add('active');
+        else navItems[2].classList.add('active');
+        updateUI();
+        window.scrollTo(0,0);
+    }
+
+    function renderMenu() {
+        return menuList.map(item => `
+            <div class="menu-card">
+                <div><div class="item-name">${item.name}</div><div class="item-price">${item.price} ج.م</div></div>
+                <button class="add-btn" onclick="addToCart(${item.id})">إضافة +</button>
+            </div>
+        `).join('');
+    }
+
+    function renderCart(total) {
+        if (cart.length === 0) return `<div style="text-align:center; padding:80px 20px; color:#666;">السلة فارغة</div>`;
+        return `
+            <div style="background:#111; padding:12px; border-radius:15px; margin-bottom:15px; border:1px dashed var(--gold);">
+                <input type="text" id="u-name" placeholder="الاسم" value="${userData.name}" oninput="saveUserData()" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
+                <input type="tel" id="u-phone" placeholder="الهاتف" value="${userData.phone}" oninput="saveUserData()" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
+                <input type="text" id="u-address" placeholder="العنوان بالتفصيل" value="${userData.address}" oninput="saveUserData()" style="width:100%; padding:10px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
+            </div>
+            ${cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="cart-header">
+                        <div><span class="qty-badge">${item.qty}x</span> <b>${item.name}</b></div>
+                        <span>${item.price * item.qty} ج.م</span>
+                    </div>
+                    <textarea class="cart-note" oninput="cart[${index}].note=this.value" placeholder="ملاحظة...">${item.note || ''}</textarea>
+                    <span style="color:var(--red); font-size:12px; display:block; margin-top:10px;" onclick="removeFromCart(${index})">🗑️ إزالة</span>
+                </div>
+            `).join('')}
+            <div style="background:var(--gold); color:black; padding:15px; border-radius:15px; text-align:center; margin-top:15px;">
+                <p style="font-size:12px;">إجمالي الحساب</p><h2 style="font-size:26px; font-weight:900;">${total} ج.م</h2>
+                <a href="#" class="whatsapp-btn" onclick="sendOrder()">تأكيد الطلب ✅</a>
+            </div>`;
+    }
+
+    function renderContact() {
+        return `
+            <div class="contact-container">
+                <img src="1000363484.png" width="110" style="border-radius:50%; border:2px solid var(--gold); margin-bottom:20px;">
+                <h2 style="color:var(--gold)">نحن هنا لخدمتك!</h2>
+                <a href="https://wa.me/201122947479" class="whatsapp-btn">تواصل معنا الآن 💬</a>
+            </div>`;
+    }
+
+    function addToCart(id) {
+        const existing = cart.find(item => item.id === id);
+        if (existing) { existing.qty++; } else { cart.push({ ...menuList.find(i => i.id === id), qty: 1, note: "" }); }
+        updateUI();
+    }
+
+    function removeFromCart(index) { cart.splice(index, 1); updateUI(); }
+    function closeModal() { document.getElementById('install-modal').style.display = 'none'; }
+    function saveUserData() {
+        userData = { name: document.getElementById('u-name').value, phone: document.getElementById('u-phone').value, address: document.getElementById('u-address').value };
+        localStorage.setItem('msnaat_user', JSON.stringify(userData));
+    }
+
+    function sendOrder() {
+        if(!userData.name || !userData.phone || !userData.address) { alert("من فضلك أكمل بيانات التوصيل"); return; }
+        const phoneNo = "201122947479";
+        const invoiceNum = getNextInvoiceNumber();
+        
+        let total = 0;
+        let itemsPart = "";
+        
+        // بناء جزء الأصناف أولاً
+        cart.forEach((item, i) => {
+            itemsPart += `*${i + 1}-* ${item.qty}x ${item.name} ⬅️ _${item.price * item.qty} ج.م_%0A`;
+            if(item.note) itemsPart += `📝 ملاحظة: ${item.note}%0A`;
+            total += (item.price * item.qty);
+        });
+
+        // تجميع الرسالة كاملة
+        let msg = `*🧾 فاتورة رقم: #${invoiceNum}*%0A`;
+        msg += `*🥩 طلب من: مصنعات اليُمن 🥩*%0A`;
+        msg += `------------------------------%0A`;
+        msg += itemsPart; // إضافة الأصناف هنا
+        msg += `------------------------------%0A`;
+        msg += `💰 *إجمالي الحساب:* ${total} ج.م%0A%0A`;
+        msg += `👤 *العميل:* ${userData.name}%0A📞 *الهاتف:* ${userData.phone}%0A📍 *العنوان:* ${userData.address}%0A`;
+        msg += `------------------------------%0A`;
+        msg += `_شكراً لطلبكم من مصنعات اليُمن_`;
+
+        localStorage.setItem('last_invoice_num', invoiceNum);
+        window.open(`https://wa.me/${phoneNo}?text=${msg}`, '_blank');
+    }
+
+    updateUI();
+</script>
+</body>
+</html>
