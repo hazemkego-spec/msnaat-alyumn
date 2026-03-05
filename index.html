@@ -29,12 +29,10 @@
         .logo-img { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 8px; }
         header h1 { color: var(--gold); font-size: 20px; font-weight: 900; }
 
-        /* ستايل نافذة التثبيت المطور */
         #install-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; padding: 15px; }
         .modal-content { background: var(--card-bg); border: 2px solid var(--gold); border-radius: 25px; padding: 25px; text-align: center; width: 100%; max-width: 400px; }
         .install-title { color: var(--gold); font-size: 20px; margin-bottom: 15px; }
         .guide-step { background: #222; border-radius: 12px; padding: 12px; margin-bottom: 10px; text-align: right; display: flex; align-items: center; gap: 10px; border: 1px solid #333; }
-        .guide-step span { font-size: 24px; }
 
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
         .menu-card { background: var(--card-bg); border-radius: 15px; padding: 12px; text-align: center; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
@@ -50,11 +48,11 @@
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; display: flex; height: var(--tab-height); border-top: 2px solid var(--gold); z-index: 1000; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: none; background: none; color: #888; font-size: 12px; font-weight: bold; }
         .nav-item.active { color: var(--gold); }
-        .nav-icon { font-size: 22px; margin-bottom: 4px; }
+        .nav-icon { font-size: 20px; margin-bottom: 4px; }
         .badge { background: var(--red); color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; position: absolute; top: 8px; right: 28%; display: flex; align-items: center; justify-content: center; border: 2px solid #111; font-weight: 900; }
 
-        .loc-btn { background: #444; color: white; border: none; padding: 8px; border-radius: 8px; margin-top: 5px; width: 100%; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .whatsapp-btn { background: #25d366; color: white; display: block; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 900; font-size: 18px; margin-top: 10px; text-align: center; border: none; width: 100%; }
+        .loc-btn { background: #333; color: white; border: 1px solid var(--gold); padding: 8px; border-radius: 8px; margin-top: 5px; width: 100%; font-size: 12px; cursor: pointer; }
+        .whatsapp-btn { background: #25d366; color: white; display: block; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 900; font-size: 18px; margin-top: 10px; text-align: center; border: none; width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -67,8 +65,8 @@
 <div id="install-modal">
     <div class="modal-content">
         <h2 class="install-title">🥩 ثبّت تطبيق مصنعات اليُمن</h2>
-        <div class="guide-step"><span>⋮</span> <p><b>أندرويد:</b> اضغط على النقط الثلاث ثم <b>تثبيت التطبيق</b></p></div>
-        <div class="guide-step"><span>⎋</span> <p><b>آيفون:</b> اضغط على زر <b>مشاركة</b> ثم <b>إضافة للشاشة الرئيسية</b></p></div>
+        <div class="guide-step"><span>⋮</span> <p><b>أندرويد:</b> اضغط النقط الثلاث ثم <b>تثبيت التطبيق</b></p></div>
+        <div class="guide-step"><span>⎋</span> <p><b>آيفون:</b> اضغط زر <b>مشاركة</b> ثم <b>إضافة للشاشة الرئيسية</b></p></div>
         <button onclick="document.getElementById('install-modal').style.display='none'" style="background:var(--gold); border:none; padding:12px; border-radius:10px; width:100%; font-weight:bold; margin-top:10px;">بدء التسوق</button>
     </div>
 </div>
@@ -93,7 +91,6 @@
 <script>
     window.addEventListener('load', () => {
         setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 800);
-        // تظهر دائماً إذا كان المتصفح ليس في وضع "التطبيق المثبت"
         if (!window.matchMedia('(display-mode: standalone)').matches) {
             document.getElementById('install-modal').style.display = 'flex';
         }
@@ -110,6 +107,12 @@
     let userLocation = "";
     let userData = JSON.parse(localStorage.getItem('msnaat_user')) || { name: "", phone: "", address: "" };
 
+    function getNextInvoiceNumber() {
+        let lastNum = localStorage.getItem('last_invoice_num') || 1000;
+        let newNum = parseInt(lastNum) + 1;
+        return newNum;
+    }
+
     function updateUI() {
         const content = document.getElementById('app-content');
         const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
@@ -122,11 +125,9 @@
             document.getElementById('float-sum').innerText = total;
         } else { floatTotal.style.display = 'none'; }
 
-        if (activeTab === 'menu') {
-            content.innerHTML = `<div class="menu-grid">${renderMenu()}</div>`;
-        } else if (activeTab === 'cart') {
-            content.innerHTML = `<div style="padding:12px;">${renderCart(total)}</div>`;
-        } else { content.innerHTML = renderContact(); }
+        if (activeTab === 'menu') { content.innerHTML = `<div class="menu-grid">${renderMenu()}</div>`; }
+        else if (activeTab === 'cart') { content.innerHTML = `<div style="padding:12px;">${renderCart(total)}</div>`; }
+        else { content.innerHTML = renderContact(); }
     }
 
     function changeTab(tab) {
@@ -155,7 +156,7 @@
                 <input type="text" id="u-name" placeholder="الاسم" value="${userData.name}" oninput="saveUserData()" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
                 <input type="tel" id="u-phone" placeholder="الهاتف" value="${userData.phone}" oninput="saveUserData()" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
                 <input type="text" id="u-address" placeholder="العنوان بالتفصيل" value="${userData.address}" oninput="saveUserData()" style="width:100%; padding:10px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
-                <button class="loc-btn" onclick="getLocation()">📍 ${userLocation ? "تم تحديد الموقع ✅" : "إرسال موقعي الجغرافي (GPS)"}</button>
+                <button class="loc-btn" onclick="getLocation()">📍 ${userLocation ? "تم تحديد الموقع بنجاح ✅" : "إرسال موقعي الحالي (GPS)"}</button>
             </div>
             ${cart.map((item, index) => `
                 <div class="cart-item">
@@ -163,11 +164,12 @@
                         <div><span class="qty-badge">${item.qty}x</span> <b>${item.name}</b></div>
                         <span>${item.price * item.qty} ج.م</span>
                     </div>
-                    <textarea style="width:100%; margin-top:5px; background:#222; color:#ccc; border:none; padding:5px; font-size:11px;" oninput="cart[${index}].note=this.value" placeholder="ملاحظات...">${item.note || ''}</textarea>
+                    <textarea style="width:100%; margin-top:5px; background:#222; color:#ccc; border:none; padding:5px; font-size:11px;" oninput="cart[${index}].note=this.value" placeholder="ملاحظة...">${item.note || ''}</textarea>
+                    <span style="color:var(--red); font-size:12px; display:block; margin-top:10px;" onclick="removeFromCart(${index})">إزالة</span>
                 </div>
             `).join('')}
             <div style="background:var(--gold); color:black; padding:15px; border-radius:15px; text-align:center; margin-top:15px;">
-                <p>إجمالي الحساب</p><h2 style="font-size:26px;">${total} ج.م</h2>
+                <p>إجمالي الحساب</p><h2 style="font-size:26px; font-weight:900;">${total} ج.م</h2>
                 <button class="whatsapp-btn" onclick="sendOrder()">تأكيد الطلب عبر واتساب ✅</button>
             </div>`;
     }
@@ -175,17 +177,14 @@
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((pos) => {
-                userLocation = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                userLocation = "https://www.google.com/maps?q=" + pos.coords.latitude + "," + pos.coords.longitude;
                 updateUI();
-            }, () => alert("يرجى تفعيل GPS لتحديد موقعك"));
+            }, () => alert("يرجى تفعيل الـ GPS"));
         }
     }
 
     function renderContact() {
-        return `<div style="text-align:center; padding:50px 20px;">
-                <h2 style="color:var(--gold)">نحن هنا لخدمتك!</h2>
-                <a href="https://wa.me/201122947479" class="whatsapp-btn">تواصل معنا الآن</a>
-            </div>`;
+        return `<div style="text-align:center; padding:50px 20px;"><h2 style="color:var(--gold)">نحن هنا لخدمتك!</h2><a href="https://wa.me/201122947479" class="whatsapp-btn">تواصل معنا الآن</a></div>`;
     }
 
     function addToCart(id) {
@@ -194,6 +193,7 @@
         updateUI();
     }
 
+    function removeFromCart(index) { cart.splice(index, 1); updateUI(); }
     function saveUserData() {
         userData = { name: document.getElementById('u-name').value, phone: document.getElementById('u-phone').value, address: document.getElementById('u-address').value };
         localStorage.setItem('msnaat_user', JSON.stringify(userData));
@@ -202,6 +202,7 @@
     function sendOrder() {
         if(!userData.name || !userData.phone || !userData.address) { alert("أكمل البيانات أولاً"); return; }
         const phoneNo = "201122947479";
+        const invoiceNum = getNextInvoiceNumber();
         let total = 0;
         let itemsMsg = "";
         
@@ -213,7 +214,8 @@
             total += (item.price * item.qty);
         });
 
-        let finalMsg = "طلب جديد من مصنعات اليمن\n";
+        let finalMsg = "فاتورة رقم: #" + invoiceNum + "\n";
+        finalMsg += "طلب جديد من مصنعات اليمن\n";
         finalMsg += "------------------------------\n";
         finalMsg += itemsMsg;
         finalMsg += "------------------------------\n";
@@ -221,10 +223,11 @@
         finalMsg += "👤 الاسم: " + userData.name + "\n";
         finalMsg += "📞 الهاتف: " + userData.phone + "\n";
         finalMsg += "📍 العنوان: " + userData.address + "\n";
-        if(userLocation) finalMsg += "🗺️ موقع GPS: " + userLocation + "\n";
+        if(userLocation) finalMsg += "🗺️ الموقع الجغرافي: " + userLocation + "\n";
         finalMsg += "------------------------------\n";
         finalMsg += "شكراً لتعاملك معنا!";
 
+        localStorage.setItem('last_invoice_num', invoiceNum);
         window.open("https://wa.me/" + phoneNo + "?text=" + encodeURIComponent(finalMsg), '_blank');
     }
 
