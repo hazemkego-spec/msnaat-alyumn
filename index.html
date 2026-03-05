@@ -29,18 +29,31 @@
         .logo-img { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 8px; }
         header h1 { color: var(--gold); font-size: 20px; font-weight: 900; }
 
-        #install-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; padding: 15px; }
-        .modal-content { background: var(--card-bg); border: 2px solid var(--gold); border-radius: 25px; padding: 25px; text-align: center; width: 100%; max-width: 400px; }
-        .install-title { color: var(--gold); font-size: 20px; margin-bottom: 15px; }
-        .guide-step { background: #222; border-radius: 12px; padding: 12px; margin-bottom: 10px; text-align: right; display: flex; align-items: center; gap: 10px; border: 1px solid #333; }
+        /* نافذة التثبيت المطورة - تفصيلية بالصور */
+        #install-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--card-bg); border: 2px solid var(--gold); border-radius: 25px; padding: 20px; text-align: center; width: 100%; max-width: 400px; box-shadow: 0 0 30px rgba(212, 163, 115, 0.2); }
+        .install-title { color: var(--gold); font-size: 22px; font-weight: 900; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
+        .guide-container { text-align: right; margin-bottom: 20px; }
+        .os-section { margin-bottom: 20px; }
+        .os-header { color: var(--red); font-weight: 900; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        
+        .step { background: #252525; border-radius: 12px; padding: 10px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; border: 1px solid #333; transition: 0.3s; }
+        .step:active { border-color: var(--gold); }
+        .step-icon { background: var(--gold); color: black; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; flex-shrink: 0; }
+        .step-text { font-size: 13px; line-height: 1.4; color: #eee; }
+        .step-img { font-size: 20px; margin-right: auto; }
 
+        .btn-start { background: var(--gold); color: black; border: none; padding: 15px; border-radius: 12px; width: 100%; font-weight: 900; font-size: 16px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+
+        /* المنيو والسلة */
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
         .menu-card { background: var(--card-bg); border-radius: 15px; padding: 12px; text-align: center; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
         .item-name { font-size: 16px; font-weight: 700; color: var(--gold); }
         .item-price { color: var(--red); font-size: 18px; font-weight: 900; margin: 8px 0; }
         .add-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 10px; font-weight: 900; font-size: 14px; }
 
-        #floating-total { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 6px 15px; border-radius: 50px; font-weight: 900; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: none; z-index: 900; font-size: 13px; }
+        #floating-total { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 6px 15px; border-radius: 50px; font-weight: 900; display: none; z-index: 900; font-size: 13px; }
 
         .cart-item { background: var(--card-bg); border-radius: 12px; padding: 10px; margin-bottom: 10px; border-right: 4px solid var(--red); }
         .qty-badge { background: var(--gold); color: black; padding: 2px 7px; border-radius: 50%; font-weight: 900; font-size: 11px; margin-left: 5px; }
@@ -48,11 +61,11 @@
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #111; display: flex; height: var(--tab-height); border-top: 2px solid var(--gold); z-index: 1000; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: none; background: none; color: #888; font-size: 12px; font-weight: bold; }
         .nav-item.active { color: var(--gold); }
-        .nav-icon { font-size: 20px; margin-bottom: 4px; }
+        .nav-icon { font-size: 22px; margin-bottom: 4px; }
         .badge { background: var(--red); color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; position: absolute; top: 8px; right: 28%; display: flex; align-items: center; justify-content: center; border: 2px solid #111; font-weight: 900; }
 
-        .loc-btn { background: #333; color: white; border: 1px solid var(--gold); padding: 8px; border-radius: 8px; margin-top: 5px; width: 100%; font-size: 12px; cursor: pointer; }
-        .whatsapp-btn { background: #25d366; color: white; display: block; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 900; font-size: 18px; margin-top: 10px; text-align: center; border: none; width: 100%; cursor: pointer; }
+        .loc-btn { background: #333; color: white; border: 1px solid var(--gold); padding: 10px; border-radius: 8px; margin-top: 8px; width: 100%; font-size: 13px; cursor: pointer; font-weight: bold; }
+        .whatsapp-btn { background: #25d366; color: white; display: block; padding: 15px; border-radius: 12px; text-decoration: none; font-weight: 900; font-size: 18px; margin-top: 15px; text-align: center; border: none; width: 100%; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -64,10 +77,39 @@
 
 <div id="install-modal">
     <div class="modal-content">
-        <h2 class="install-title">🥩 ثبّت تطبيق مصنعات اليُمن</h2>
-        <div class="guide-step"><span>⋮</span> <p><b>أندرويد:</b> اضغط النقط الثلاث ثم <b>تثبيت التطبيق</b></p></div>
-        <div class="guide-step"><span>⎋</span> <p><b>آيفون:</b> اضغط زر <b>مشاركة</b> ثم <b>إضافة للشاشة الرئيسية</b></p></div>
-        <button onclick="document.getElementById('install-modal').style.display='none'" style="background:var(--gold); border:none; padding:12px; border-radius:10px; width:100%; font-weight:bold; margin-top:10px;">بدء التسوق</button>
+        <h2 class="install-title">🥩 تثبيت تطبيق مصنعات اليُمن</h2>
+        
+        <div class="guide-container">
+            <div class="os-section">
+                <div class="os-header">📱 هواتف أندرويد (Chrome)</div>
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <div class="step-text">اضغط على النقاط الثلاث في الأعلى</div>
+                    <div class="step-img">⋮</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <div class="step-text">اختر <b>"تثبيت التطبيق"</b> أو "إضافة للشاشة"</div>
+                    <div class="step-img">📲</div>
+                </div>
+            </div>
+
+            <div class="os-section">
+                <div class="os-header">🍎 هواتف آيفون (Safari)</div>
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <div class="step-text">اضغط على زر المشاركة بالأسفل</div>
+                    <div class="step-img">⎋</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <div class="step-text">اختر <b>"إضافة إلى الشاشة الرئيسية"</b></div>
+                    <div class="step-img">➕</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-start" onclick="document.getElementById('install-modal').style.display='none'">فهمت، ابدأ التسوق الآن</button>
     </div>
 </div>
 
@@ -91,8 +133,12 @@
 <script>
     window.addEventListener('load', () => {
         setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 800);
+        
+        // تظهر في كل مرة إذا لم يتم فتح الموقع كتطبيق مثبت
         if (!window.matchMedia('(display-mode: standalone)').matches) {
-            document.getElementById('install-modal').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('install-modal').style.display = 'flex';
+            }, 1500);
         }
     });
 
@@ -138,6 +184,7 @@
         else if(tab === 'cart') navItems[1].classList.add('active');
         else navItems[2].classList.add('active');
         updateUI();
+        window.scrollTo(0,0);
     }
 
     function renderMenu() {
@@ -150,27 +197,27 @@
     }
 
     function renderCart(total) {
-        if (cart.length === 0) return `<div style="text-align:center; padding:80px 20px; color:#666;">السلة فارغة</div>`;
+        if (cart.length === 0) return `<div style="text-align:center; padding:80px 20px; color:#666;">السلة فارغة 🛒</div>`;
         return `
-            <div style="background:#111; padding:12px; border-radius:15px; margin-bottom:15px; border:1px dashed var(--gold);">
-                <input type="text" id="u-name" placeholder="الاسم" value="${userData.name}" oninput="saveUserData()" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
-                <input type="tel" id="u-phone" placeholder="الهاتف" value="${userData.phone}" oninput="saveUserData()" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
-                <input type="text" id="u-address" placeholder="العنوان بالتفصيل" value="${userData.address}" oninput="saveUserData()" style="width:100%; padding:10px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
-                <button class="loc-btn" onclick="getLocation()">📍 ${userLocation ? "تم تحديد الموقع بنجاح ✅" : "إرسال موقعي الحالي (GPS)"}</button>
+            <div style="background:#111; padding:15px; border-radius:15px; margin-bottom:15px; border:1px dashed var(--gold);">
+                <input type="text" id="u-name" placeholder="الاسم" value="${userData.name}" oninput="saveUserData()" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
+                <input type="tel" id="u-phone" placeholder="رقم الهاتف" value="${userData.phone}" oninput="saveUserData()" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
+                <input type="text" id="u-address" placeholder="العنوان بالتفصيل" value="${userData.address}" oninput="saveUserData()" style="width:100%; padding:12px; border-radius:8px; background:#222; color:white; border:1px solid #444;">
+                <button class="loc-btn" onclick="getLocation()">📍 ${userLocation ? "تم تحديد موقعك ✅" : "اضغط هنا لإرسال موقعك (GPS)"}</button>
             </div>
             ${cart.map((item, index) => `
                 <div class="cart-item">
-                    <div style="display:flex; justify-content:space-between;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div><span class="qty-badge">${item.qty}x</span> <b>${item.name}</b></div>
-                        <span>${item.price * item.qty} ج.م</span>
+                        <span style="font-weight:900;">${item.price * item.qty} ج.م</span>
                     </div>
-                    <textarea style="width:100%; margin-top:5px; background:#222; color:#ccc; border:none; padding:5px; font-size:11px;" oninput="cart[${index}].note=this.value" placeholder="ملاحظة...">${item.note || ''}</textarea>
-                    <span style="color:var(--red); font-size:12px; display:block; margin-top:10px;" onclick="removeFromCart(${index})">إزالة</span>
+                    <textarea style="width:100%; margin-top:8px; background:#222; color:#ccc; border:none; padding:8px; border-radius:5px; font-size:12px;" oninput="cart[${index}].note=this.value" placeholder="هل لديك أي ملاحظات على هذا الصنف؟">${item.note || ''}</textarea>
+                    <span style="color:var(--red); font-size:12px; display:block; margin-top:10px; text-align:left;" onclick="removeFromCart(${index})">🗑️ إزالة من السلة</span>
                 </div>
             `).join('')}
-            <div style="background:var(--gold); color:black; padding:15px; border-radius:15px; text-align:center; margin-top:15px;">
-                <p>إجمالي الحساب</p><h2 style="font-size:26px; font-weight:900;">${total} ج.م</h2>
-                <button class="whatsapp-btn" onclick="sendOrder()">تأكيد الطلب عبر واتساب ✅</button>
+            <div style="background:var(--gold); color:black; padding:20px; border-radius:15px; text-align:center; margin-top:20px;">
+                <p style="font-weight:bold;">إجمالي الفاتورة</p><h2 style="font-size:30px; font-weight:900;">${total} ج.م</h2>
+                <button class="whatsapp-btn" onclick="sendOrder()">تأكيد الطلب وإرسال الفاتورة ✅</button>
             </div>`;
     }
 
@@ -179,12 +226,12 @@
             navigator.geolocation.getCurrentPosition((pos) => {
                 userLocation = "https://www.google.com/maps?q=" + pos.coords.latitude + "," + pos.coords.longitude;
                 updateUI();
-            }, () => alert("يرجى تفعيل الـ GPS"));
+            }, () => alert("يرجى السماح بالوصول للموقع لتسهيل التوصيل"));
         }
     }
 
     function renderContact() {
-        return `<div style="text-align:center; padding:50px 20px;"><h2 style="color:var(--gold)">نحن هنا لخدمتك!</h2><a href="https://wa.me/201122947479" class="whatsapp-btn">تواصل معنا الآن</a></div>`;
+        return `<div style="text-align:center; padding:50px 20px;"><img src="1000363484.png" width="100" style="border-radius:50%; margin-bottom:20px;"><h2 style="color:var(--gold)">مصنعات اليُمن في خدمتك</h2><a href="https://wa.me/201122947479" class="whatsapp-btn">تحدث معنا مباشرة</a></div>`;
     }
 
     function addToCart(id) {
@@ -194,19 +241,21 @@
     }
 
     function removeFromCart(index) { cart.splice(index, 1); updateUI(); }
+    
     function saveUserData() {
         userData = { name: document.getElementById('u-name').value, phone: document.getElementById('u-phone').value, address: document.getElementById('u-address').value };
         localStorage.setItem('msnaat_user', JSON.stringify(userData));
     }
 
     function sendOrder() {
-        if(!userData.name || !userData.phone || !userData.address) { alert("أكمل البيانات أولاً"); return; }
+        if(!userData.name || !userData.phone || !userData.address) { alert("من فضلك أكمل بيانات التوصيل"); return; }
         const phoneNo = "201122947479";
         const invoiceNum = getNextInvoiceNumber();
         let total = 0;
         let itemsMsg = "";
         
         cart.forEach((item, i) => {
+            // التنسيق المنظم للأصناف
             itemsMsg += "الصنف رقم (" + (i + 1) + "):\n";
             itemsMsg += "- " + item.qty + "x " + item.name + " [" + (item.price * item.qty) + " ج.م]\n";
             if(item.note) itemsMsg += "ملاحظة: " + item.note + "\n";
@@ -214,6 +263,7 @@
             total += (item.price * item.qty);
         });
 
+        // بناء الرسالة النهائية - رقم الفاتورة في السطر الأول بدون إيموجي
         let finalMsg = "فاتورة رقم: #" + invoiceNum + "\n";
         finalMsg += "طلب جديد من مصنعات اليمن\n";
         finalMsg += "------------------------------\n";
@@ -223,9 +273,9 @@
         finalMsg += "👤 الاسم: " + userData.name + "\n";
         finalMsg += "📞 الهاتف: " + userData.phone + "\n";
         finalMsg += "📍 العنوان: " + userData.address + "\n";
-        if(userLocation) finalMsg += "🗺️ الموقع الجغرافي: " + userLocation + "\n";
+        if(userLocation) finalMsg += "🗺️ موقع GPS: " + userLocation + "\n";
         finalMsg += "------------------------------\n";
-        finalMsg += "شكراً لتعاملك معنا!";
+        finalMsg += "شكراً لثقتكم بمصنعات اليُمن!";
 
         localStorage.setItem('last_invoice_num', invoiceNum);
         window.open("https://wa.me/" + phoneNo + "?text=" + encodeURIComponent(finalMsg), '_blank');
